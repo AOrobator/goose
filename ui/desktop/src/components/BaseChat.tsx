@@ -256,6 +256,14 @@ export default function BaseChat({
     setView('chat');
   };
 
+  // Track whether to show the scroll-to-bottom button
+  const [showScrollToBottom, setShowScrollToBottom] = useState(false);
+  const handleScrollChange = useCallback((isAtBottom: boolean) => {
+    // Show button when user has scrolled up (not at bottom)
+    // Hide when at bottom (auto-follow re-engages)
+    setShowScrollToBottom(!isAtBottom);
+  }, []);
+
   // Track if this is the initial render for session resuming
   const initialRenderRef = useRef(true);
 
@@ -437,6 +445,7 @@ export default function BaseChat({
             onDrop={handleDrop}
             onDragOver={handleDragOver}
             data-drop-zone="true"
+            onScrollChange={handleScrollChange}
             paddingX={6}
             paddingY={0}
           >
@@ -482,6 +491,37 @@ export default function BaseChat({
             <div className="absolute bottom-1 left-4 z-20 pointer-events-none">
               <LoadingGoose chatState={chatState} message={progressMessage} />
             </div>
+          )}
+
+          {/* Scroll to bottom button - appears when user scrolls up */}
+          {showScrollToBottom && (
+            <button
+              onClick={() => {
+                scrollRef.current?.scrollToBottom();
+              }}
+              className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 p-2 rounded-full bg-background-secondary border border-border-primary shadow-lg hover:bg-background-tertiary transition-all duration-200 animate-[fadein_200ms_ease-out]"
+              title={intl.formatMessage({
+                id: 'baseChat.scrollToBottom',
+                defaultMessage: 'Scroll to bottom',
+              })}
+              aria-label={intl.formatMessage({
+                id: 'baseChat.scrollToBottom',
+                defaultMessage: 'Scroll to bottom',
+              })}
+            >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M12 5v14M19 12l-7 7-7-7" />
+              </svg>
+            </button>
           )}
         </div>
 
