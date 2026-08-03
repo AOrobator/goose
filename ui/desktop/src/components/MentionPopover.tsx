@@ -7,6 +7,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import { createPortal } from 'react-dom';
 import { ItemIcon } from './ItemIcon';
 import { getInitialWorkingDir } from '../utils/workingDir';
 import { defineMessages, useIntl } from '../i18n';
@@ -571,9 +572,12 @@ const MentionPopover = forwardRef<
 
     if (!isOpen) return null;
 
-    return (
+    // Portal to document.body so ChatInputCard's overflow-hidden / transform
+    // animations cannot trap this fixed popover inside the composer.
+    return createPortal(
       <div
         ref={popoverRef}
+        data-testid="mention-popover"
         className="fixed z-50 bg-background-primary border border-border-primary rounded-lg shadow-lg min-w-96 max-w-lg max-h-80"
         style={{
           left: position.x,
@@ -631,7 +635,8 @@ const MentionPopover = forwardRef<
             </>
           )}
         </div>
-      </div>
+      </div>,
+      document.body
     );
   }
 );
