@@ -249,7 +249,7 @@ To configure your chosen provider, see available options, or select a model, vis
        │
        ◇  Select a model:
        // highlight-start
-       │  claude-sonnet-4-5 (default)
+       │  claude-opus-5 (default)
        // highlight-end
        │
        ◒  Checking your configuration...

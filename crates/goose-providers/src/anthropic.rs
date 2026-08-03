@@ -26,7 +26,7 @@ use crate::conversation::message::Message;
 use crate::model::ModelConfig;
 use rmcp::model::Tool;
 
-pub const ANTHROPIC_DEFAULT_MODEL: &str = "claude-sonnet-4-5";
+pub const ANTHROPIC_DEFAULT_MODEL: &str = "claude-opus-5";
 pub const ANTHROPIC_DEFAULT_FAST_MODEL: &str = "claude-haiku-4-5";
 const ANTHROPIC_KNOWN_MODELS: &[&str] = &[
     "claude-opus-5",
